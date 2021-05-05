@@ -1,13 +1,14 @@
 from tkinter import *
-from pages.startpage import *
-from pages.addDataPage import *
-from pages.finderpage import *
+from pages import *
 
 
 background_color = "orange"
 
 class Window:
-
+    """Class for the window. It already creates the Frames for the different pages as objekts of the classes for the pages. In the beginning
+    only the startpage is visible. 
+    The class has three Methods show_start_page, show_add_data_page() and show_finder_page() to show a several page and hide the others when
+    you click on the corresponding buttons."""
     def __init__(self, bcolor):
         self.root = Tk()
         self.root.title('Watchfinder')
@@ -26,6 +27,7 @@ class Window:
     def show_finder_page(self):
         self.finder_page.show()
         self.start_page.hide()  
+        self.finder_page.refresh_page()
     
     def show_start_page(self):
         self.start_page.show()

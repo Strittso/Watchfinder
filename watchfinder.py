@@ -2,6 +2,12 @@ from watch import *
 
 class Watchfinder:
 
+    """Watchfinder class with all important functions for finding watches and to help design the finder page:
+    -> read_wathes_data(filename) reads the data from filename and returns the data as a dictionary; key are numbers starting from 0, value ist the data for one watch as a dictionary
+    -> get_watches() returns a dictionary similar to the one in read_watches_data(filename) but now the value are objects of the class Watch
+    -> get_categories() searches for different categories in all watches and returns all found categories in a list
+    -> get_options() returns all options in a list of the given category """
+
     def __init__(self):
         self.watches = self.get_watches()
 
@@ -49,7 +55,7 @@ class Watchfinder:
         return self.categories
 
     def get_options(self, category):
-        """Method that returns all options in a list of the given category."""
+        """Method returns all options in a list of the given category."""
         options = []
         watches_index = 0
         for element in self.watches:

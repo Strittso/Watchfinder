@@ -1,42 +1,70 @@
 from tkinter import *
 from watchfinder import *
+from watch import *
 
+class StartPage:
+
+
+    def __init__(self, window):
+        self.start_page = Frame(window.root)
+        self.start_page.config(background = "orange")
+        self.label = Label(self.start_page, text = "Welcome to the Watchfinder", font = "30")
+        self.label.grid(row = 0, column = 0, pady = 5)
+        self.add_data_button = Button(self.start_page, text = "Add new Watches to Database", command = lambda: window.show_add_data_page())
+        self.add_data_button.grid(row = 1, column = 0, pady = 5)
+        self.finder_button = Button(self.start_page, text = "Start Watchfinder",command = lambda: window.show_finder_page())
+        self.finder_button.grid(row = 2, column = 0, pady = 5)
+        self.start_page.pack(expand = YES)
+
+    def hide(self):
+        self.start_page.pack_forget()
+
+    def show(self):
+        self.start_page.pack(expand = YES)
+
+
+class AddDataPage:
+
+    def __init__(self, window):
+        self.add_data_page = Frame(window.root)
+        self.add_data_page.config(background = "red")
+        self.label = Label(self.add_data_page, text = "Welcome to the Watchfinder")
+        self.label.grid(row = 0, column = 0, pady = 5)
+        self.button = Button(self.add_data_page, text = "Add new Watches to Database")
+        self.button.grid(row = 1, column = 0, pady = 5)
+        self.back_button = Button(self.add_data_page, text = "Back to Start", command = lambda: window.show_start_page())
+        self.back_button.grid(row = 2, column = 0, pady = 5)
+        self.add_data_page.pack_forget()
+
+    def show(self):
+        self.add_data_page.pack(expand = YES)
+    
+    def hide(self):
+        self.add_data_page.pack_forget()
 
 
 class FinderPage:
 
     def __init__(self, window):
+        self.wf = Watchfinder()
+        self.watches = self.wf.get_watches()
+
         self.finder_page = Frame(window.root)
 
-        """Categories: brand, size, price, Antrieb (Quarz, Automatik, Handaufzug), Stil (sportlich, klassisch),
-           Komplikation (z.B. Datumanzeige), Geschlecht, Zifferblattfarbe, Bandmaterial"""
-        """self.categories_frame = Frame(self.finder_page)"""
-        
-
-        #brand 
-        """self.brand_lb = Label(self.categories_frame, text = "Brand")
-        self.brand_lb.grid(row = 1, column = 0, pady = 5)
-        self.brand_frame = Frame(self.categories_frame)
-        self.var_iwc = IntVar()
-        self.iwc_checkbox = Checkbutton(self.brand_frame, variable = self.var_iwc)
-        self.iwc_checkbox.grid(row = 0, column = 0)
-        self.iwc_label = Label(self.brand_frame, text = "IWC")
-        self.iwc_label.grid(row = 0, column = 1)
-        self.brand_frame.grid(row = 2, column = 0, pady = 5)"""
-
         self.generate_categories_frame()
-        
-
-        
-        
 
         self.watches_frame = Frame(self.finder_page)
+        self.watches_row = 1
+        for element in self.watches:
+            watch = self.watches[element]
+            watch.show_data(self.watches_frame, self.watches_row, 0)
+            self.watches_row = self.watches_row + 1
+
         self.back_button = Button(self.watches_frame, text = "Back to Start", command = lambda: window.show_start_page())
-        self.back_button.grid(row = 1, column = 0)
+        self.back_button.grid(row = 20, column = 0)
         self.label = Label(self.watches_frame, text = "Watches")
         self.label.grid(row = 0, column = 0)
         self.watches_frame.grid(row = 0, column = 1)
-
 
         self.finder_page.pack_forget()
 
@@ -50,11 +78,6 @@ class FinderPage:
 ############################################################################################
     def generate_categories_frame(self):
         self.categories_frame = Frame(self.finder_page)
-
-        self.wf = Watchfinder()
-        self.watches = self.wf.get_watches()
-        print(self.watches)
-
         self.categories = self.wf.get_categories()
 
         self.label = Label(self.categories_frame, text = "Please select Categoies")
@@ -97,4 +120,10 @@ class FinderPage:
 
         return self.categories_frame
 
+    def refresh_page(self):
+        self.watches_row = 1
+        for element in self.watches:
+            watch = self.watches[element]
+            watch.show_data(self.watches_frame, self.watches_row, 0)
+            self.watches_row = self.watches_row + 1
 
