@@ -14,10 +14,14 @@ class Window:
         self.root.title('Watchfinder')
         self.root.state('zoomed')
         self.root.config(background = bcolor)
+        #self.root.resizable(0,0)
 
-        self.start_page = StartPage(self)
-        self.add_data_page = AddDataPage(self)
-        self.finder_page = FinderPage(self)
+        self.root_width = self.root.winfo_vrootwidth()
+        self.root_height = self.root.winfo_vrootheight()
+
+        self.start_page = StartPage(self, bcolor)
+        self.add_data_page = AddDataPage(self, bcolor)
+        self.finder_page = FinderPage(self, bcolor)
         self.root.mainloop()
 
     def show_add_data_page(self):

@@ -1,0 +1,15 @@
+Name:string
+Brand:1
+Reference Number:string
+Diameter (in mm):number
+Price (in CHF):number
+Dial Color:1
+Case Material:1
+Mechanism:1
+Complication:more
+Strap Material:1
+Water Resistance (in Bar):number
+Glass:1
+Power Reserve (in h):number
+Glass Back:yes_no
+Buckle:1
