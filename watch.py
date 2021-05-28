@@ -50,9 +50,9 @@ class Watch:
         file_width = file.getbbox()[2]
         reduce_factor = int(file_width / image_width)
         watch_image = ImageTk.PhotoImage(file.reduce(reduce_factor))
-        label_image = Label(self.watch_frame, image = watch_image)
-        label_image.image = watch_image
-        label_image.grid(row = 0, rowspan = index, column = 2, sticky = W)
+        self.label_image = Label(self.watch_frame, image = watch_image)
+        self.label_image.image = watch_image
+        self.label_image.grid(row = 0, rowspan = index, column = 2, sticky = W)
 
     def check_combination(self, combination):
         included = FALSE
