@@ -70,7 +70,20 @@ class AddDataPage:
         self.label_image.pack()
     
     def delete_watch_image(self):
-        self.label_image.pack_forget()
+        try:
+            self.label_image.pack_forget()
+        except:
+            print("no image selected")
+
+    """def add_option(self, frame):
+        
+        label = Label(entry_window, text = "Please enter the categories you want to add. \nIf you want to add more than one category, \nplease seperate them by a comma.")
+        label.pack()
+
+        entry_var = StringVar()
+        entry = Entry(frame, textvariable= entry_var)
+        entry.pack(anchor = E)"""
+
 
     def generate_add_frame(self):
         self.add_frame = Frame(self.add_data_page)
@@ -168,6 +181,9 @@ class AddDataPage:
                     checkbutton.pack(anchor=W)
                     checkbuttons.append(checkbutton)
 
+                """button = Button(checkbuttons_frame, text = "Add new Option", command = lambda: self.add_option(checkbuttons_frame))
+                button.pack(side = BOTTOM, anchor = E)"""
+
                 self.data[category] = option_vars
 
                 checkbuttons_frame.pack(anchor=W)
@@ -181,12 +197,13 @@ class AddDataPage:
         self.middle_frame.pack(side = LEFT)
         self.right_frame.pack(side = RIGHT)
 
-        #was wenn kein foto gewählt?
+        self.image_file = 0
         self.save_button = Button(self.add_data_page, text = "Save", command = lambda: [self.wf.save_watches_data(self.image_file, self.data, self.data_widgets), self.delete_watch_image()])
         self.save_button.grid(row = 1, column = 0, padx = 5, pady = 5, sticky = W)
-
+        
 
         self.add_frame.grid(row = 0, column = 0, padx = 5, pady = 5)
+
 
 
 
@@ -200,7 +217,8 @@ class FinderPage:
 
         self.finder_page = Frame(self.window.root, bg = self.bcolor)        
 
-        self.watches_frame_width = (0.8*self.window.root_width)
+        self.watches_frame_width = (0.78*self.window.root_width)
+        print(self.watches_frame_width)
         self.frame_wf = Frame(self.finder_page, bg = bcolor)
         self.canvas_wf = Canvas(self.frame_wf, bg = "orange")
         self.frame_wf_out = Frame(self.canvas_wf, bg = self.bcolor)
@@ -221,7 +239,7 @@ class FinderPage:
         self.finder_page.pack_forget()
 
     def generate_categories_frame(self):
-        self.cf_width = (0.2*self.window.root_width)
+        self.cf_width = (0.22*self.window.root_width)
         self.frame_cf = Frame(self.finder_page, bg = self.bcolor)
         self.frame_cf.place(x = 0, y = 0, width = self.cf_width, height = self.window.root_height)
         self.canvas_cf = Canvas(self.frame_cf, bg = "orange")
@@ -232,7 +250,7 @@ class FinderPage:
         self.categories = self.wf.get_categories()
 
         self.label = Label(self.categories_frame, text = "Please select Categoies", bg = self.bcolor, font = "30")
-        self.label.grid(row = 0, column = 0, pady = 30, padx = 30, sticky = W)
+        self.label.grid(row = 0, column = 0, pady = 20, padx = 20, sticky = W)
 
         row_index = 1
         self.category_frames = {}
@@ -259,7 +277,7 @@ class FinderPage:
             self.category_option_vars[category] = option_vars 
             self.option_frames[category].grid(row = 1, column = 0, sticky = W)
             
-            self.category_frames[category].grid(row = row_index, column = 0, padx = 30, pady = 5, sticky = W)
+            self.category_frames[category].grid(row = row_index, column = 0, padx = 20, pady = 5, sticky = W)
             row_index = row_index + 1
 
         self.search_button = Button(self.categories_frame, text = "Search", command = lambda: self.refresh_page())
@@ -270,7 +288,7 @@ class FinderPage:
 
         self.categories_frame.update()
         self.cf_height = self.categories_frame.winfo_height()
-        self.frame_cf_out.config(height = (self.cf_height + 100))
+        self.frame_cf_out.config(height = (self.cf_height))
         #part has to be after the configuration (height) of the frame, otherwise it doesn't work
         self.canvas_cf.configure(yscrollcommand = self.scrollbar_cf.set)
         self.scrollbar_cf.pack(side = RIGHT, fill = Y)
@@ -312,9 +330,9 @@ class FinderPage:
         self.back_button.grid(row = self.watches_row+1, column = 0)
         
         self.watches_frame.update()
-        self.Watches_frame_height = self.watches_frame.winfo_height()
+        self.watches_frame_height = self.watches_frame.winfo_height()
 
-        self.frame_wf_out.config(height = (self.Watches_frame_height + 100))
+        self.frame_wf_out.config(height = (self.watches_frame_height))
         #part has to be after the configuration (height) of the frame, otherwise it doesn't work
         self.canvas_wf.configure(yscrollcommand = self.scrollbar_wf.set)
         self.scrollbar_wf.pack(side = RIGHT, fill = Y)

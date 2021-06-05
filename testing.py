@@ -1,20 +1,14 @@
 from tkinter import *
 from tkinter import filedialog
 from PIL import Image, ImageTk
+root = Tk()
+root.config(background="orange")
 
-"""root = Tk()
-root.geometry("400x400")
+image_file = 0
+image_filepath = "./Ressources/images/" +"hi" + ".jpg"
+image_file.save(image_filepath)
 
-path= filedialog.askopenfilename() 
-file = Image.open(path)
-watch_image = ImageTk.PhotoImage(file)
-label_image = Label(root, image = watch_image)
-label_image.image = watch_image
-label_image.pack()
-file.save("./testfolder/IWtest.jpg")
 
-root.mainloop()"""
-a = "49.94538746"
-print(a)
-b = float(a)
-print(b)
+
+root.mainloop()
+
