@@ -218,7 +218,6 @@ class FinderPage:
         self.finder_page = Frame(self.window.root, bg = self.bcolor)        
 
         self.watches_frame_width = (0.78*self.window.root_width)
-        print(self.watches_frame_width)
         self.frame_wf = Frame(self.finder_page, bg = bcolor)
         self.canvas_wf = Canvas(self.frame_wf, bg = "orange")
         self.frame_wf_out = Frame(self.canvas_wf, bg = self.bcolor)
@@ -257,6 +256,7 @@ class FinderPage:
         self.option_frames = {}
         self.options_checkbuttons = {}
         self.category_option_vars = {}
+        self.categories_type = self.wf.get_categories_addtype()
         for category in self.categories:
             self.category_frames[category] = Frame(self.categories_frame, bg = self.bcolor)
             category_lb = Label(self.category_frames[category], text = category, bg = self.bcolor)
@@ -265,14 +265,32 @@ class FinderPage:
 
             self.option_frames[category] = Frame(self.category_frames[category], bg = self.bcolor)
             options = self.wf.get_options(category)
+
             
-            option_vars = {}
-            option_index = 0
-            for option in options:
-                option_vars[option] = IntVar()
-                self.options_checkbuttons[option] = Checkbutton(self.option_frames[category], text = option, variable = option_vars[option], bg = self.bcolor)
-                self.options_checkbuttons[option].grid(row = option_index, column = 0, sticky = W)
-                option_index = option_index + 1
+
+            if self.categories_type[category] == "number":
+                print(category)
+                
+                label_min = Label(self.option_frames[category], text = "From:", bg = self.bcolor)
+                label_min.grid(row = 0, column = 0, padx = 5, pady = 5, sticky=W)
+                label_max = Label(self.option_frames[category], text = "To:", bg = self.bcolor)
+                label_max.grid(row = 1, column = 0, padx = 5, pady = 5, sticky=W)
+                entry_min = DoubleVar()
+                entry_max = DoubleVar()
+                entry_min = Entry(self.option_frames[category], textvariable = entry_min, width=8)
+                entry_min.grid(row = 0, column = 1, padx = 5, pady = 5, sticky=W)
+                entry_max = Entry(self.option_frames[category], textvariable = entry_max, width=8)
+                entry_max.grid(row = 1, column = 1, padx = 5, pady = 5, sticky=W)
+                option_vars = {"min":entry_min, "max":entry_max}
+                
+            else:
+                option_vars = {}
+                option_index = 0
+                for option in options:
+                    option_vars[option] = IntVar()
+                    self.options_checkbuttons[option] = Checkbutton(self.option_frames[category], text = option, variable = option_vars[option], bg = self.bcolor)
+                    self.options_checkbuttons[option].grid(row = option_index, column = 0, sticky = W)
+                    option_index = option_index + 1
 
             self.category_option_vars[category] = option_vars 
             self.option_frames[category].grid(row = 1, column = 0, sticky = W)

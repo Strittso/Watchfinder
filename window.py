@@ -14,7 +14,7 @@ class Window:
         self.root = Tk()
         self.root.title('Watchfinder')
         
-        self.root.geometry("1300x700")
+        self.root.geometry("1300x700+0+0")
         self.root.config(background = bcolor)
         #self.root.resizable(0,0)
 

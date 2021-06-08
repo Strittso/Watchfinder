@@ -58,7 +58,6 @@ class Watch:
 
         reduce_factor = round(factor)
         watch_image = ImageTk.PhotoImage(file.reduce(reduce_factor))
-        print(watch_image)
 
         label_image = Label(self.window, image = watch_image)
         label_image.image = watch_image
