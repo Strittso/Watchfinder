@@ -1,3 +1,4 @@
+from pathlib import WindowsPath
 from tkinter import *
 from PIL import Image, ImageTk
 
@@ -14,14 +15,12 @@ class Watch:
 
     def show_data(self, master, row_index, column_index):
         """shows the data in the window on the finder page"""
-        self.frame = Frame(master, bg = "black", bd = 2)
 
-        self.watch_frame = Frame(self.frame)
-        
+        label_watch = ""
         index = 1
         for element in self.watchdata:
-            label_category = Label(self.watch_frame, text = element)
-            label_category.grid(row = index, column = 0, sticky = W)
+            label_watch = label_watch + element + ": "
+
             if len(self.watchdata[element]) > 1:
                 value = ""
                 value_index = 0
@@ -33,26 +32,78 @@ class Watch:
                     value_index = value_index + 1
             else:
                 value = self.watchdata[element][0]
-            
-            label_values = Label(self.watch_frame, text = value)
-            label_values.grid(row = index, column = 1, sticky = W)
+            label_watch = label_watch + value + "\n"
             index = index + 1
-        self.show_image(index)
         
-        self.watch_frame.pack()
-        self.frame.grid(row = row_index, column = column_index, padx = 5, pady = 5)
+        self.watch_image = self.get_image()
+        self.button = Button(master, text=label_watch, image=self.watch_image, width = 470, height = 300, compound="right", command = lambda:self.show_details())
+        self.button.image = self.watch_image
+        self.button.grid(row = row_index, column = column_index, padx = 5, pady = 5)
 
-    def show_image(self, index):
-        # shows image of the watch
-        image_width = 200
-        filename = "./Ressources/images/" + self.watchdata["Reference Number"][0] + ".jpg"
+    def show_details(self):
+        self.window = Toplevel()
+       
+        image_width = 300
+        try:
+            filename = "./Ressources/images/" + self.watchdata["Reference Number"][0] + ".jpg"
+            file = Image.open(filename)
+        except FileNotFoundError:
+            filename = "./Ressources/images/" + self.watchdata["Reference Number"][0] + ".png"
+            file = Image.open(filename)
+
         file = Image.open(filename)
         file_width = file.getbbox()[2]
-        reduce_factor = int(file_width / image_width)
+
+        factor = file_width / image_width
+
+        reduce_factor = round(factor)
         watch_image = ImageTk.PhotoImage(file.reduce(reduce_factor))
-        self.label_image = Label(self.watch_frame, image = watch_image)
-        self.label_image.image = watch_image
-        self.label_image.grid(row = 0, rowspan = index, column = 2, sticky = W)
+
+        label_image = Label(self.window, image = watch_image)
+        label_image.image = watch_image
+        label_image.grid(row = 0, column = 0, columnspan=2)
+        index = 1
+        for element in self.watchdata:
+            label_category = Label(self.window, text = element)
+            label_category.grid(row = index, column = 0)
+
+            if len(self.watchdata[element]) > 1:
+                value = ""
+                value_index = 0
+                for option in self.watchdata[element]:
+                    if value_index == 0:
+                        value = value + self.watchdata[element][value_index]
+                    else:
+                        value = value + ", " + self.watchdata[element][value_index] 
+                    value_index = value_index + 1
+            else:
+                value = self.watchdata[element][0]
+           
+            label_category = Label(self.window, text = value)
+            label_category.grid(row = index, column = 1)
+            index = index + 1
+
+        self.window.mainloop()
+
+
+    def get_image(self):
+        # returns image of the watch
+        image_width = 200
+        try:
+            filename = "./Ressources/images/" + self.watchdata["Reference Number"][0] + ".jpg"
+            file = Image.open(filename)
+        except FileNotFoundError:
+            filename = "./Ressources/images/" + self.watchdata["Reference Number"][0] + ".png"
+            file = Image.open(filename)
+        file = Image.open(filename)
+        file_width = file.getbbox()[2]
+        
+        factor = file_width / image_width
+        
+        reduce_factor = round(factor)
+        watch_image = ImageTk.PhotoImage(file.reduce(reduce_factor))
+        
+        return watch_image
 
     def check_combination(self, combination):
         included = FALSE
@@ -65,6 +116,12 @@ class Watch:
             included = TRUE
 
         return included
+
+
+        
+        
+        
+
     
             
 

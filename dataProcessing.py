@@ -1,7 +1,7 @@
-import types
+
 from watch import *
 import itertools as it
-import types
+from tkinter import messagebox as mb
 
 
 class DataProcessing:
@@ -66,12 +66,23 @@ class DataProcessing:
             else:
                 value = data[category].get()
                 new_watch_data_str = new_watch_data_str + category + ":" + str(value) + ";"
+            
+        try:
+            image_filepath = "./Ressources/images/" + data["Reference Number"].get() + ".jpg"
+            try:
+                image_file.save(image_filepath)
+            except OSError:
+                image_filepath = "./Ressources/images/" + data["Reference Number"].get() + ".png"
+            new_watch_data_str = new_watch_data_str.strip(";")
+            f.write("\n" + new_watch_data_str) 
+        except AttributeError:
+            mb.showerror("No Picture","Please select a picture to save the new watch!")
+        
 
-        new_watch_data_str = new_watch_data_str.strip(";")
-        f.write("\n" + new_watch_data_str)     
+        else:
+            mb.showinfo("Saved","Saved new watch successfully!")
 
-        image_filepath = "./Ressources/images/" + data["Reference Number"].get() + ".jpg"
-        image_file.save(image_filepath)
+        
 
         f.close()
 

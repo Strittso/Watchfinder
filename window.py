@@ -4,6 +4,7 @@ from pages import *
 
 background_color = "orange"
 
+
 class Window:
     """Class for the window. It already creates the Frames for the different pages as objekts of the classes for the pages. In the beginning
     only the startpage is visible. 
@@ -12,12 +13,14 @@ class Window:
     def __init__(self, bcolor):
         self.root = Tk()
         self.root.title('Watchfinder')
-        self.root.state('zoomed')
+        
+        self.root.geometry("1300x700+0+0")
         self.root.config(background = bcolor)
         #self.root.resizable(0,0)
 
-        self.root_width = self.root.winfo_vrootwidth()
-        self.root_height = self.root.winfo_vrootheight()
+        self.root_width = 1300
+        self.root_height = 700
+        
 
         self.start_page = StartPage(self, bcolor)
         self.add_data_page = AddDataPage(self, bcolor)
