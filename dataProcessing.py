@@ -77,7 +77,6 @@ class DataProcessing:
             f.write("\n" + new_watch_data_str) 
         except AttributeError:
             mb.showerror("No Picture","Please select a picture to save the new watch!")
-        
 
         else:
             mb.showinfo("Saved","Saved new watch successfully!")
@@ -151,10 +150,8 @@ class DataProcessing:
         
         return options
 
-    #komplikation geht noch nicht wenn die Uhr mehr als 1 Komplikation hat
     def search_watches(self, category_option_vars):
         self.watches = self.get_watches()
-
         selected_options = {}
         for category in category_option_vars:
             option_vars = category_option_vars[category]
@@ -164,7 +161,19 @@ class DataProcessing:
                     selected.append(element)
             if selected:
                 selected_options[category] = selected
-
+        
+        numbers = {}
+        for category in category_option_vars:
+            option_vars = category_option_vars[category]
+            minMax = {}
+            for element in option_vars:
+                if element == "min":
+                    minMax["min"] = option_vars[element].get()
+                if element == "max":
+                    minMax["max"] = option_vars[element].get()
+            if minMax != {}:
+                numbers[category] = minMax
+        
         filtered_watches = {}
         if selected_options.values(): 
             
@@ -177,14 +186,21 @@ class DataProcessing:
 
             combinations = list(it.product(*options_list))
             index = 0
+            print(combinations)
             for combination in combinations:
                 for watch in self.watches:
-                    included = self.watches[watch].check_combination(combination)
+                    included = self.watches[watch].check_combination(combination, numbers)
                     if included == TRUE and self.watches[watch] not in filtered_watches.values():
                         filtered_watches[index] = self.watches[watch] 
                         index = index + 1
         else:
-            filtered_watches = self.watches
+            index = 0
+            for watch in self.watches:
+                included = self.watches[watch].check_combination([], numbers)
+                if included == TRUE and self.watches[watch] not in filtered_watches.values():
+                    filtered_watches[index] = self.watches[watch] 
+                    index = index + 1
+        
         
         return filtered_watches
                         
