@@ -108,9 +108,14 @@ class Watch:
         included = FALSE
         included_num = 0
         for element in combination:
+            element_split = element.split(":")
+            element_category = element_split[0]
+            element_value = element_split[1]
             for category in self.watchdata:
-                if element in self.watchdata[category]:
-                    included_num = included_num + 1
+                if element_category == category:
+                    if element_value in self.watchdata[category]:
+                        included_num = included_num + 1
+
         numbers_included = 0
         for category in numbers:
             if numbers[category]["min"] != '':
@@ -127,7 +132,7 @@ class Watch:
                 numbers_included = numbers_included + 1
             if (float(self.watchdata[category][0]) >= min) & (float(self.watchdata[category][0]) <= max):
                 numbers_included = numbers_included + 1
-    
+
         if (included_num == len(combination)) & (numbers_included == len(numbers)):
             included = TRUE
             

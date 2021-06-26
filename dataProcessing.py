@@ -176,17 +176,20 @@ class DataProcessing:
         
         filtered_watches = {}
         if selected_options.values(): 
-            
             # mit Modul itertool alle Möglichen Kombinationen in eine Liste eintragen lassen
             # z.B. gewäglt sind:{"Brand": ["IWC","Tissot"], "Size":[40, 42]}
             # -> Komnbinationen = [(IWC,40),(IWC,42),(Rolex,40),(Rolex,42)] 
             options_list = []
             for category in selected_options:
-                options_list.append(selected_options[category])
-
+                option_list = []
+                for elem in selected_options[category]:
+                    option = category + ":" + str(elem).strip("['").strip("']")
+                    option_list.append(option)
+                options_list.append(option_list)
+            print(options_list)
             combinations = list(it.product(*options_list))
-            index = 0
             print(combinations)
+            index = 0
             for combination in combinations:
                 for watch in self.watches:
                     included = self.watches[watch].check_combination(combination, numbers)
