@@ -3,7 +3,7 @@ from tkinter import filedialog
 from tkinter import ttk
 from dataProcessing import *
 from watch import *
-from analogClock import *
+from clock import *
 from PIL import Image, ImageTk
 
 class StartPage:
@@ -24,7 +24,7 @@ class StartPage:
         self.text_frame.pack(expand = YES, side = LEFT)
 
         self.clock_frame = Frame(self.start_page, background = bcolor)
-        self.clock = AnalogClock(self, bcolor)
+        self.clock = Clock(self, bcolor)
         self.clock_frame.pack(expand = YES, side = LEFT)
 
         self.start_page.pack(expand = YES)
@@ -269,7 +269,6 @@ class FinderPage:
             
 
             if self.categories_type[category] == "number":
-                print(category)
                 
                 label_min = Label(self.option_frames[category], text = "From:", bg = self.bcolor)
                 label_min.grid(row = 0, column = 0, padx = 5, pady = 5, sticky=W)

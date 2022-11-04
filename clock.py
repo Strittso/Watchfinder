@@ -10,7 +10,7 @@ length_seconds = 250
 length_minutes = 250
 length_hours = 200
 
-class AnalogClock:
+class Clock:
     def __init__(self, master, bcolor):
         self.master = master.clock_frame
         
